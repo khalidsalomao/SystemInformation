@@ -267,7 +267,7 @@ public static string getAvailableRAM(){
         }
 
         public static void GetLinuxCPUInfo ()
-        {
+        {            
             string marker = null;
             foreach (var info in System.IO.File.ReadLines ("/proc/cpuinfo"))
             {
@@ -330,6 +330,24 @@ public static string getAvailableRAM(){
                         case "SwapFree":                            
                             break;
                     }
+                }
+            }
+        }
+
+        public static void GetLinuxCPUTime (string pId)
+        {
+            // http://stackoverflow.com/questions/29092242/get-processor-time-in-mono
+            //https://web.archive.org/web/20130302063336/http://www.lindevdoc.org/wiki//proc/pid/stat
+            //http://stackoverflow.com/questions/16726779/how-do-i-get-the-total-cpu-usage-of-an-application-from-proc-pid-stat
+            //http://unix.stackexchange.com/questions/58539/top-and-ps-not-showing-the-same-cpu-result
+            foreach (var info in System.IO.File.ReadLines ("/proc/" + pId + "/stat"))
+            {
+                if (!String.IsNullOrWhiteSpace (info))
+                {
+                    var data = info.Split (' ');
+                    if (data.Length < 10)
+                        continue;
+                    
                 }
             }
         }
